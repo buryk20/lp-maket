@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogicPower — Рішення</title>
+  <meta name="description" content="Рішення LogicPower для бізнесу: СЕС, системи накопичення енергії, резервне живлення, промислові комплекси та HVM.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css?v=20260410f">
+</head>
+<body data-page="solutions">
+  <div class="page-shell">
+    <header class="site-header" data-header>
+      <a class="brand" href="./index.html" aria-label="LogicPower">
+        <img class="brand-logo" src="./assets/logicpower-logo.svg" alt="LogicPower">
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Відкрити меню" data-menu-toggle>
+        <span class="menu-toggle-line"></span>
+        <span class="menu-toggle-line"></span>
+        <span class="menu-toggle-line"></span>
+      </button>
+      <nav class="main-nav" aria-label="Основна навігація" data-nav>
+        <a href="./index.html" data-link="index">Головна</a>
+        <a href="./about.html" data-link="about">Про компанію</a>
+        <div class="nav-group">
+          <a href="./solutions.html" data-link="solutions">Рішення</a>
+          <div class="nav-dropdown">
+            <a href="#solar">СЕС</a>
+            <a href="#storage">Системи накопичення</a>
+            <a href="#backup">Резервне живлення</a>
+            <a href="#industrial">Промислові рішення</a>
+            <a href="#hvm">HVM</a>
+          </div>
+        </div>
+        <a href="./manufacturing.html" data-link="manufacturing">Виробництво</a>
+        <a href="./roi.html" data-link="roi">ROI</a>
+        <a href="./cases.html" data-link="cases">Кейси</a>
+        <a href="./partners.html" data-link="partners">Партнерам</a>
+        <a href="./media.html" data-link="media">Медіа</a>
+        <a href="./career.html" data-link="career">Кар'єра</a>
+        <a href="./contacts.html" data-link="contacts">Контакти</a>
+      </nav>
+      <a class="header-cta" href="./contacts.html">Замовити розрахунок</a>
+    </header>
+
+    <main>
+      <section class="page-hero page-hero-dark">
+        <div class="page-hero-backdrop" aria-hidden="true">
+          <video autoplay muted loop playsinline preload="metadata" poster="./assets/real-solar-mountains.png">
+            <source src="./assets/hero-banner.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="ghost-layer" data-ghost-host data-ambient-profile="hero solar" aria-hidden="true"></div>
+        <div class="container page-hero-grid" style="position:relative; z-index:1;">
+          <div class="page-hero-copy">
+            <div class="page-kicker">Рішення</div>
+            <h1 class="page-hero-title">Одна екосистема рішень для генерації, резерву, накопичення та масштабування.</h1>
+            <p>
+              Ми створюємо енергетичні рішення для об'єктів, де важливі безперервна робота,
+              контроль витрат і готовність до масштабування.
+            </p>
+            <ul class="page-bullets">
+              <li>Сонячні електростанції для бізнесу та девелопменту</li>
+              <li>Системи накопичення енергії для керування піками та резерву</li>
+              <li>Промислові комплекси та високовольтні модулі HVM</li>
+            </ul>
+          </div>
+          <div class="page-hero-media reveal" style="min-height:420px;">
+            <img src="./assets/solar-bess-top.png" alt="Інтегрована енергетична система LogicPower для генерації та накопичення">
+            <div class="page-hero-panel">
+              <span>Рішення для бізнесу</span>
+              <strong>Кожен напрямок працює як частина більшої системи — від локальної генерації до повного керування енергією об'єкта.</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="solar" style="overflow:hidden;">
+        <div class="ghost-layer" data-ghost-host data-ambient-profile="solar" aria-hidden="true"></div>
+        <div class="container split-layout">
+          <div>
+            <div class="eyebrow">Фінансова прогнозованість</div>
+            <h2>Ваш персональний тариф: 0 грн за кіловат після окупності.</h2>
+            <p>
+              Кожен квадратний метр вашого даху чи вільної території може приносити гроші. Інвестиція у власну сонячну
+              генерацію — найефективніший спосіб захистити бізнес від постійного зростання цін на енергоносії.
+            </p>
+            <div class="tab-row">
+              <button class="tab-button is-active" data-day-mode="summer" data-day-target="solutionsDayChart">Літо</button>
+              <button class="tab-button" data-day-mode="winter" data-day-target="solutionsDayChart">Зима</button>
+              <button class="tab-button" data-day-mode="cloud" data-day-target="solutionsDayChart">Хмарно</button>
+            </div>
+            <div class="chart-box" style="margin-top:18px;">
+              <svg id="solutionsDayChart" class="chart-svg" viewBox="0 0 760 240" aria-label="Профіль генерації СЕС"></svg>
+            </div>
+            <div class="grid-2" style="margin-top:22px;">
+              <article class="simple-card reveal">
+                <span class="badge">Окупність</span>
+                <h3>У середньому 3–4 роки.</h3>
+                <p>Точний строк залежить від профілю споживання, площі генерації, локального тарифу та сценарію інтеграції з УЗЕ.</p>
+              </article>
+              <article class="simple-card reveal">
+                <span class="badge">Термін експлуатації</span>
+                <h3>25+ років гарантованої генерації.</h3>
+                <p>Сонячна станція залишається довгим енергетичним активом, який працює на економіку об'єкта після завершення періоду окупності.</p>
+              </article>
+              <article class="simple-card reveal">
+                <span class="badge">Незалежність від тарифів</span>
+                <h3>100% використання власної генерації.</h3>
+                <p>Net Billing і власне споживання дають змогу використовувати згенеровану енергію для реальних потреб об'єкта, а не залежати від коливань ринку.</p>
+              </article>
+              <article class="simple-card reveal">
+                <span class="badge">Energy Hedging (EU)</span>
+                <h3>Фіксація LCOE на 25 років.</h3>
+                <p>СЕС працює як захист від волатильності біржових цін та як довгий енергетичний інструмент для ринків ЄС.</p>
+              </article>
+            </div>
+            <div class="grid-3" style="margin-top:22px;">
+              <article class="simple-card reveal"><span class="badge">Rooftop</span><h3>Дахові СЕС</h3><p>Заводи, ТРЦ, склади, агрокомплекси. Баластні системи кріплення — без пошкодження покрівлі.</p></article>
+              <article class="simple-card reveal"><span class="badge">Ground-mounted</span><h3>Наземні СЕС</h3><p>Для підприємств з вільними ділянками. Ідеальний кут нахилу та максимальна продуктивність у довгому циклі генерації.</p></article>
+              <article class="simple-card reveal"><span class="badge">Solar Carports</span><h3>Навіси для паркінгу</h3><p>Подвійна вигода: захист автопарку та генерація енергії там, де кожен квадратний метр має працювати ефективно.</p></article>
+            </div>
+          </div>
+          <div class="split-media reveal" style="min-height:420px;">
+            <img src="./assets/real-solar-rooftop.png" alt="Сонячна електростанція на даху">
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-soft" id="storage" style="overflow:hidden;">
+        <div class="ghost-layer" data-ghost-host data-ambient-profile="industrial" aria-hidden="true"></div>
+        <div class="container split-layout">
+          <div class="split-media reveal storage-tall-media" style="min-height:430px;">
+            <img src="./assets/storage-system-tall.png" alt="Контейнерна система накопичення енергії LogicPower">
+          </div>
+          <div>
+            <div class="eyebrow">Системи накопичення енергії</div>
+            <h2>Контейнерні системи для керування піками, резерву та масштабованої стійкості.</h2>
+            <p>
+              УЗЕ LogicPower працюють як актив підприємства: вони згладжують піки навантаження, підтримують критичну
+              інфраструктуру та створюють основу для керованої енергетичної системи.
+            </p>
+            <div class="grid-3" style="margin-top:22px;">
+              <article class="simple-card reveal"><span class="badge">EMS/BMS</span><h3>Керування потоками енергії та сценаріями роботи.</h3><p>Алгоритми заряд/розряд, обмеження піків, балансування батарейних модулів, логіка резерву та контроль пріоритетів навантаження в реальному часі.</p></article>
+              <article class="simple-card reveal"><span class="badge">Керування піками</span><h3>Згладження піків і контроль договірної потужності.</h3><p>Система зменшує вихід за ліміт, знижує штрафні ризики, стабілізує профіль об'єкта та підтримує економіку у періоди дорогого навантаження.</p></article>
+              <article class="simple-card reveal"><span class="badge">Резерв</span><h3>Підтримка критичних процесів у разі нестабільної мережі.</h3><p>Контейнерна УЗЕ може працювати як резерв для інженерної інфраструктури, безпеки, ІТ-систем та виробничих вузлів.</p></article>
+              <article class="simple-card reveal"><span class="badge">Модульність</span><h3>Масштабування від поточного запиту до майбутнього росту.</h3><p>Архітектура підбирається під профіль навантаження, сценарій запуску об'єкта, цільову тривалість автономії та планований розвиток майданчика.</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark" id="backup">
+        <div class="container">
+          <div class="section-head split">
+            <div>
+              <div class="eyebrow">Резервне живлення</div>
+              <h2>Рішення для об'єктів, де перерва в живленні коштує надто дорого.</h2>
+            </div>
+            <p>
+              Житлові комплекси, приватні клініки, офіси, котельні, готелі та об'єкти сервісної інфраструктури
+              потребують систем, що гарантують безперервність ключових процесів без компромісів у безпеці.
+            </p>
+          </div>
+          <div class="grid-4">
+            <article class="simple-card reveal"><span class="badge dark">Житло</span><h3>Житлові комплекси</h3><p>Безперервна робота ліфтів, насосів, систем безпеки, освітлення та доступу навіть під час тривалих відключень.</p></article>
+            <article class="simple-card reveal"><span class="badge dark">Медицина</span><h3>Клініки</h3><p>Стабільна робота медичного обладнання, холодильних камер, стерилізації, ІТ-систем та аварійного освітлення без простоїв.</p></article>
+            <article class="simple-card reveal"><span class="badge dark">HoReCa</span><h3>Готелі та сервіс</h3><p>Підтримка рецепції, номерного фонду, кухні, водопідготовки, ліфтів і сервісних процесів без втрати якості послуги.</p></article>
+            <article class="simple-card reveal"><span class="badge dark">Офіси</span><h3>Офіси та кампуси</h3><p>Захист серверів, мережі, робочих станцій, СКУД, пожежної автоматики та безперервності ключових бізнес-процесів.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="industrial">
+        <div class="container split-layout">
+          <div>
+            <div class="eyebrow">Промислові рішення</div>
+            <h2>Архітектури для енергоємних виробництв, логістики та девелопменту.</h2>
+            <p>
+              Промислові рішення LogicPower об'єднують генерацію, накопичення, силову електроніку та алгоритми
+              управління, щоб ми могли контролювати і витрати, і надійність, і ресурс інфраструктури.
+            </p>
+            <div data-flow-root>
+            <div class="tab-row">
+              <button class="tab-button is-active" data-flow-mode="day">День</button>
+              <button class="tab-button" data-flow-mode="evening">Вечір</button>
+              <button class="tab-button" data-flow-mode="night">Ніч</button>
+            </div>
+            <div class="chart-box" style="margin-top:18px;">
+              <div class="flow-row">
+                <div class="flow-node">
+                  <div class="fn-val" data-flow-field="sun">850 кВт</div>
+                  <div class="fn-lbl">СЕС генерація</div>
+                  <div class="fn-bar"><div class="fn-fill" data-flow-bar="sun" style="width:85%"></div></div>
+                </div>
+                <div class="flow-arrow"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M3 10h14M11 5l5 5-5 5" stroke="#f36c21" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="flow-node">
+                  <div class="fn-val" data-flow-field="load">600 кВт</div>
+                  <div class="fn-lbl">Об'єкт споживає</div>
+                  <div class="fn-bar"><div class="fn-fill" data-flow-bar="load" style="width:60%; background:#1a2440;"></div></div>
+                </div>
+                <div class="flow-arrow"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M3 10h14M11 5l5 5-5 5" stroke="#0ea47a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="flow-node">
+                  <div class="fn-val" data-flow-field="bess">+250 кВт</div>
+                  <div class="fn-lbl" data-flow-field="bessLabel">BESS заряджається</div>
+                  <div class="fn-bar"><div class="fn-fill" data-flow-bar="bess" style="width:78%; background:#0ea47a;"></div></div>
+                </div>
+                <div class="flow-arrow"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M3 10h14M11 5l5 5-5 5" stroke="#93a0b3" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="flow-node">
+                  <div class="fn-val" data-flow-field="grid">0 кВт</div>
+                  <div class="fn-lbl" data-flow-field="gridLabel">Мережа (резерв)</div>
+                  <div class="fn-bar"><div class="fn-fill" data-flow-bar="grid" style="width:0%; background:#93a0b3;"></div></div>
+                </div>
+              </div>
+              <div class="flow-desc" data-flow-field="description">Вдень СЕС покриває виробниче споживання, а надлишок заряджає систему накопичення. Мережа залишається резервним сценарієм без активного відбору.</div>
+            </div>
+            </div>
+          </div>
+          <div class="split-media reveal" style="min-height:420px;">
+            <img src="./assets/real-logistics-hall.jpg" alt="Промислова енергетична система">
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-soft" id="hvm">
+        <div class="container split-layout">
+          <div class="split-media reveal" style="min-height:420px;">
+            <img src="./assets/high-voltage-battery.png" alt="HVM battery modules">
+          </div>
+          <div>
+            <div class="eyebrow">HVM</div>
+            <h2>Високовольтні модулі для масштабованих платформ УЗЕ.</h2>
+            <p>
+              HVM-рішення LogicPower створені для об'єктів, де критичні щільність енергії, ресурс, гнучкість
+              конфігурації та готовність до великих проєктів з високою відповідальністю.
+            </p>
+            <div class="grid-3" style="margin-top:22px;">
+              <article class="simple-card reveal"><span class="badge">Щільність</span><h3>Висока щільність енергії для масштабних проєктів УЗЕ.</h3><p>HVM-платформа дозволяє будувати великі конфігурації з фокусом на ресурс, компактність розміщення та стабільність довгого циклу.</p></article>
+              <article class="simple-card reveal"><span class="badge">Масштаб</span><h3>Гнучке нарощування ємності та потужності у міру росту навантаження.</h3><p>Платформа підходить для контейнерних систем, промислових майданчиків та проєктів, де конфігурація повинна масштабуватися без втрати керованості.</p></article>
+              <article class="simple-card reveal"><span class="badge">Сумісність</span><h3>Інтеграція з EMS/BMS, PCS та контейнерною інженерією LogicPower.</h3><p>HVM не існує окремо від системи: вона стає частиною єдиної архітектури з силовою частиною, сервісом, пожежною безпекою та комерційною логікою проєкту.</p></article>
+              <article class="simple-card reveal"><span class="badge">Ресурс</span><h3>Орієнтація на довгу комерційну експлуатацію.</h3><p>Рішення проєктується для об'єктів, де важливі цикл життя активу, стабільність роботи та прогнозований сервісний горизонт.</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="quote-box reveal">
+            <span class="badge dark">Рішення під ключ</span>
+            <h3>Ми беремо на себе 100% відповідальності за результат.</h3>
+            <p>Екосистема LogicPower поєднує генерацію, УЗЕ, резервне живлення, високовольтні платформи, EMS/BMS, виробництво, сервіс і запуск в одному рішенні, яке працює не фрагментами, а як єдина енергетична система.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-layout">
+        <div class="footer-copy">
+          <a class="brand" href="./index.html"><img class="brand-logo" src="./assets/logicpower-logo.svg" alt="LogicPower"></a>
+          <p>Сонячні електростанції, системи накопичення, резервне живлення, промислові рішення та HVM у єдиній архітектурі бренду.</p>
+          <div class="footer-links">
+            <a href="./roi.html">ROI</a>
+            <a href="./cases.html">Кейси</a>
+            <a href="./partners.html">Партнерам</a>
+            <a href="./contacts.html">Контакти</a>
+          </div>
+        </div>
+        <div class="footer-meta">
+          <span><a href="./assets/logicpower-presentation.pdf">Корпоративна презентація</a></span>
+          <span><a href="./assets/kp-solar.pdf">Сонячні рішення для бізнесу</a></span>
+          <span>Якість, перевірена досвідом</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="./site.js?v=20260410f"></script>
+  <script src="./app.js?v=20260410f"></script>
+</body>
+</html>
