@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LogicPower Engineering Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --o:#ff7a00;
+  --od:rgba(255,122,0,.12);
+  --ob:rgba(255,122,0,.22);
+  --fg:#f0f2f5;
+  --fg2:#aab3c8;
+  --bg:#2e3138;
+  --bg-soft:#333843;
+  --card:#363a44;
+  --brd:rgba(255,255,255,.10);
+  --ok:#31c46d;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',sans-serif;
+  background:
+    radial-gradient(circle at top right, rgba(255,122,0,.12), transparent 28%),
+    radial-gradient(circle at top left, rgba(255,255,255,.05), transparent 18%),
+    linear-gradient(180deg,#2e3138 0%,#292c33 100%);
+  color:var(--fg);
+}
+.page{max-width:1220px;margin:0 auto;padding:22px 16px 60px}
+.hero,.panel,.top-card,.summary,.modal-card,.kit{
+  box-shadow:0 10px 30px rgba(0,0,0,.16);
+}
+.hero{
+  position:relative;overflow:hidden;border-radius:18px;
+  border:1px solid rgba(255,122,0,.14);
+  background:linear-gradient(135deg,rgba(255,122,0,.14),rgba(255,122,0,.03) 36%,rgba(255,255,255,.03));
+  padding:26px 26px 22px;
+}
+.hero::before{
+  content:"";position:absolute;inset:auto -40px -60px auto;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,122,0,.18),transparent 70%);
+}
+.hero-tag,.panel-tag,.kit-label{
+  display:inline-flex;padding:4px 10px;border-radius:999px;border:1px solid var(--ob);
+  background:rgba(255,122,0,.08);color:var(--o);text-transform:uppercase;letter-spacing:.8px;font-size:10px;font-weight:700;
+}
+.hero-tag{margin-bottom:12px}
+.hero h1,.panel-title,.modal-title,.kit h4{font-family:'Rajdhani',sans-serif}
+.hero h1{font-size:clamp(34px,5vw,56px);line-height:.95;margin-bottom:10px}
+.hero p,.panel-sub,.hint,.micro,.kit-intro,.disclaimer{color:var(--fg2);line-height:1.65}
+.hero p{max-width:820px;font-size:14px}
+.hero-stats,.summary-grid,.results,.layout,.top-controls{display:grid;gap:12px}
+.hero-stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:18px}
+.hero-stat,.summary-box,.kit-tags span,.meta-row,.top-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 14px;
+}
+.hero-stat strong,.summary-box strong{display:block;color:var(--o);font-size:18px;margin-bottom:4px}
+.hero-stat span,.summary-box span,.range-legend,.field-label,.meta-list div span{color:var(--fg2);font-size:12px}
+.layout{grid-template-columns:1.15fr .85fr;margin-top:18px}
+.panel{
+  background:var(--card);border:1px solid rgba(255,122,0,.16);border-radius:18px;
+}
+.panel-hd{padding:18px 20px 10px}
+.panel-title{font-size:24px;line-height:1}
+.panel-sub{margin-top:8px;font-size:13px}
+.panel-body{padding:0 20px 20px}
+.sphere-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 18px}
+.sphere-tab,.choice,.btn,.close{
+  transition:all .18s ease;
+}
+.sphere-tab{
+  border:1px solid var(--brd);border-radius:14px;background:var(--bg-soft);color:var(--fg);padding:11px 10px;text-align:left;cursor:pointer;
+}
+.sphere-tab.active,.choice.active{
+  background:linear-gradient(135deg,rgba(255,122,0,.18),rgba(255,122,0,.06));border-color:var(--o);
+}
+.sphere-tab small{display:block;font-size:10px;color:var(--fg2);margin-bottom:3px}
+.sphere-tab strong{display:block;font-size:13px;line-height:1.2}
+.calc-grid,.meta-card,.meta-list,.range-wrap{display:grid;gap:14px}
+.field-label{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;
+  font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+}
+.field-value{color:var(--o);font-size:13px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:999px;background:#454b5a;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--o);box-shadow:0 3px 10px rgba(255,122,0,.35);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border:none;border-radius:50%;background:var(--o);cursor:pointer}
+.choice-row,.cta-row,.kit-tags{display:flex;flex-wrap:wrap;gap:8px}
+.choice{
+  border:1px solid var(--brd);border-radius:10px;background:var(--bg);color:var(--fg);padding:8px 12px;font-size:12px;font-weight:600;cursor:pointer;
+}
+.check{
+  display:flex;align-items:flex-start;gap:10px;background:var(--bg-soft);border:1px solid var(--brd);border-radius:12px;padding:11px 12px;
+}
+.check input{margin-top:2px;accent-color:var(--o)}
+.check strong{display:block;font-size:12px;margin-bottom:4px}
+.check span{color:var(--fg2);font-size:12px;line-height:1.5}
+.btn{
+  border:none;border-radius:12px;background:linear-gradient(135deg,#ff7a00,#eb6800);color:#fff;
+  font-size:13px;font-weight:800;padding:12px 18px;cursor:pointer;box-shadow:0 12px 24px rgba(255,122,0,.18);
+}
+.summary{margin-top:18px;padding:16px 18px;background:linear-gradient(135deg,rgba(255,122,0,.10),rgba(255,255,255,.03));border:1px solid rgba(255,122,0,.18);border-radius:16px}
+.summary-grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:12px}
+.meta-list div{display:flex;justify-content:space-between;gap:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.meta-list div:last-child{padding-bottom:0;border-bottom:none}
+.meta-list strong{color:var(--fg);font-size:12px}
+.schema{margin-top:18px}
+.schema pre{
+  margin-top:10px;background:#262a32;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;overflow:auto;color:#c8d1e2;font-size:12px;line-height:1.55;
+}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(8,10,14,.72);z-index:20}
+.modal.open{display:flex}
+.modal-card{width:min(1180px,100%);max-height:calc(100vh - 32px);overflow:auto;border-radius:20px;background:#2f343e;border:1px solid rgba(255,122,0,.18)}
+.modal-hd{
+  position:sticky;top:0;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:18px 20px 16px;
+  background:linear-gradient(180deg,#363b46 0%,#323742 100%);border-bottom:1px solid rgba(255,122,0,.14);
+}
+.modal-title{font-size:26px;line-height:1}
+.modal-sub{color:var(--fg2);font-size:13px;line-height:1.6;margin-top:6px}
+.close{border:none;background:rgba(255,255,255,.06);color:var(--fg2);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:18px}
+.modal-body{padding:18px 20px 20px}
+.top-controls{grid-template-columns:1.2fr .8fr;margin-bottom:14px}
+.top-card h3{font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--fg2);margin-bottom:10px}
+.warning{margin-bottom:14px;padding:12px 14px;border-radius:12px;background:rgba(242,182,67,.10);border:1px solid rgba(242,182,67,.22);color:#f4c96d;font-size:13px;line-height:1.6}
+.results{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kit{display:flex;flex-direction:column;background:linear-gradient(180deg,#3a404b 0%,#333944 100%);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px}
+.kit-badge{display:inline-flex;width:max-content;padding:4px 9px;border-radius:999px;font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:800;margin-bottom:10px}
+.kit-badge.basic{background:rgba(49,196,109,.13);color:#58d487}
+.kit-badge.optimal{background:rgba(255,122,0,.15);color:#ff9a38}
+.kit-badge.max{background:rgba(105,148,255,.15);color:#8eb1ff}
+.kit h4{font-size:24px;margin-bottom:6px}
+.kit-block{border-top:1px solid rgba(255,255,255,.06);padding-top:10px;margin-top:10px}
+.kit-block:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.kit-label{margin-bottom:5px}
+.kit-text{color:var(--fg);font-size:13px;line-height:1.6}
+.kit-stat{margin-top:12px;padding:12px;border-radius:14px;background:rgba(49,196,109,.09);border:1px solid rgba(49,196,109,.15)}
+.kit-stat strong{display:block;color:#74df9d;font-size:28px;line-height:1;margin-bottom:5px}
+.kit-stat span{color:#c7ead4;font-size:12px;line-height:1.5}
+.kit-tags span{font-size:11px;color:var(--fg2)}
+.disclaimer{margin-top:12px;font-size:11.5px;line-height:1.55}
+code{color:#ffb15c}
+@media(max-width:1040px){.layout,.top-controls,.results,.summary-grid{grid-template-columns:1fr}}
+@media(max-width:720px){
+  .page{padding:14px 10px 40px}
+  .hero{padding:20px 16px}
+  .hero-stats,.sphere-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .panel-hd,.panel-body,.modal-body{padding-left:14px;padding-right:14px}
+  .modal-hd{padding:14px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <div class="hero-tag">Engineering Configurator</div>
+    <h1>LogicPower<br>Calculator</h1>
+    <p>Окрема standalone-сторінка в стилі каталогу LogicPower. Калькулятор працює по інженерних правилах: архітектура 12/24/48V та 3 фази, перевірка потужності, пускових струмів, струму АКБ, заряду, MPPT-ліміту і деградація автономії, якщо об’єкт фізично не пропускає бажані години.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>9</strong><span>динамічних сфер</span></div>
+      <div class="hero-stat"><strong>3</strong><span>рівні комплектів</span></div>
+      <div class="hero-stat"><strong>4</strong><span>класи архітектури</span></div>
+      <div class="hero-stat"><strong>0</strong><span>вигаданих наборів “зі стелі”</span></div>
+    </div>
+  </section>
+
+  <div class="layout">
+    <section class="panel">
+      <div class="panel-hd">
+        <div class="panel-tag">Frontend + Matching Engine</div>
+        <div class="panel-title">Підбір комплекту</div>
+        <div class="panel-sub">Виберіть сферу, навантаження, тип системи та пускові струми. Результат відкриється в модальному вікні з окремим повзунком автономії та миттєвим перерахунком.</div>
+      </div>
+      <div class="panel-body">
+        <div class="sphere-tabs" id="sphereTabs"></div>
+        <div class="calc-grid">
+          <div>
+            <div class="field-label"><span>Навантаження</span><span class="field-value" id="loadValue"></span></div>
+            <div class="range-wrap">
+              <input id="loadRange" type="range">
+              <div class="range-legend"><span id="loadMin"></span><span id="loadMax"></span></div>
+            </div>
+            <div class="hint" id="loadHint"></div>
+          </div>
+          <div>
+            <div class="field-label"><span>Тип системи</span></div>
+            <div class="choice-row" id="systemChoices"></div>
+          </div>
+          <div>
+            <div class="field-label"><span>Фазність об’єкта</span></div>
+            <div class="choice-row" id="phaseChoices"></div>
+          </div>
+          <label class="check">
+            <input id="surgeInput" type="checkbox">
+            <span><strong>Є пускові струми</strong>Для насосів, компресорів, ліфтів, зварювання, підйомників, холодильного обладнання та інших індуктивних навантажень.</span>
+          </label>
+          <div class="cta-row">
+            <button class="btn" id="pickBtn">Підібрати комплект</button>
+            <div class="micro">Сфера автоматично змінює діапазон навантаження, дефолтну автономію, підказки та доступні системи.</div>
+          </div>
+        </div>
+
+        <div class="summary">
+          <div class="panel-tag">Live Summary</div>
+          <div class="panel-title" style="font-size:20px">Що зараз запитується</div>
+          <div class="summary-grid">
+            <div class="summary-box"><span>Сфера</span><strong id="summarySphere">-</strong></div>
+            <div class="summary-box"><span>Навантаження</span><strong id="summaryLoad">-</strong></div>
+            <div class="summary-box"><span>Тип системи</span><strong id="summarySystem">-</strong></div>
+            <div class="summary-box"><span>Дефолт автономії</span><strong id="summaryHours">-</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <div class="panel-hd">
+        <div class="panel-tag">Engineering Rules</div>
+        <div class="panel-title">Що перевіряє двигун</div>
+      </div>
+      <div class="panel-body">
+        <div class="meta-card">
+          <div class="meta-row">
+            <strong>Архітектура напруги</strong>
+            <p>До 1 кВт — 12V, до 3 кВт — 24V, до 10 кВт — 48V, вище 10 кВт або явна 3-фазна вимога — 3 фази.</p>
+          </div>
+          <div class="meta-row">
+            <strong>Ключові формули</strong>
+            <p>Ємність АКБ: <code>(Load × Hours) / (efficiency × DoD × reserve)</code>. Перевірка інвертора — окремо по безперервній і пусковій потужності. PV рахується через 550W-панель з жорстким обрізанням по MPPT.</p>
+          </div>
+          <div class="meta-row">
+            <strong>Обов’язкові фільтри</strong>
+            <div class="meta-list">
+              <div><span>Rated power</span><strong>інвертор не нижче потреби</strong></div>
+              <div><span>Surge power</span><strong>окремо для пусків</strong></div>
+              <div><span>Battery current</span><strong>BMS і паралель не перевантажені</strong></div>
+              <div><span>Charge balance</span><strong>заряд не повільніший за політику</strong></div>
+              <div><span>PV limit</span><strong>не вище MPPT інвертора</strong></div>
+              <div><span>Fallback</span><strong>години знижуються, а не система “ламається”</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="schema">
+          <div class="panel-tag">Matrix Schema</div>
+          <div class="panel-sub">У коді нижче закладено схему об’єкта матриці комплектів, щоб розробник міг віддати її в JSON/API без зміни логіки UI.</div>
+          <pre>{
+  "id": "kit_5kw_10kwh_opt",
+  "sphere": ["house", "apartment", "business"],
+  "system_type": "hybrid",
+  "bundle_level": "optimal",
+  "phase": "1p",
+  "voltage_v": 48,
+  "rated_power_w": 5000,
+  "max_surge_power_w": 10000,
+  "max_charge_current_a": 80,
+  "max_pv_input_w": 6000,
+  "inverter_efficiency": 0.92,
+  "battery_model": "LiFePO4 48V 100Ah",
+  "battery_kwh": 9.6,
+  "battery_count": 2,
+  "battery_max_charge_a": 100,
+  "battery_max_discharge_a": 100,
+  "pv_panels_qty": 10
+}</pre>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<div class="modal" id="resultsModal">
+  <div class="modal-card">
+    <div class="modal-hd">
+      <div>
+        <div class="panel-tag">Selection Result</div>
+        <div class="modal-title">Підібрані комплекти</div>
+        <div class="modal-sub" id="modalSummary"></div>
+      </div>
+      <button class="close" id="closeModal" aria-label="Закрити">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="top-controls">
+        <div class="top-card">
+          <h3>Бажаний час автономії</h3>
+          <div class="field-label"><span>Автономія</span><span class="field-value" id="autonomyValue"></span></div>
+          <input id="autonomyRange" type="range">
+          <div class="hint">При зміні часу автономії комплекти перераховуються миттєво по тій самій інженерній логіці. Якщо об’єкт не пропускає бажане значення, двигун знизить години до максимально можливих.</div>
+        </div>
+        <div class="top-card">
+          <h3>Розрахунковий контекст</h3>
+          <div class="meta-list" id="resultMeta"></div>
+        </div>
+      </div>
+      <div id="degradeWarning"></div>
+      <div class="results" id="resultsGrid"></div>
+    </div>
+  </div>
+</div>
+<script>
+const SPHERES = {
+  house:{uiName:"Приватний будинок",icon:"🏠",minLoad:0.5,maxLoad:20,step:0.5,systems:["backup","hybrid","autonomous"],hint:"Холодильник (0.4) + освітлення (0.2) + котел (0.3) + ТВ, зарядки",defaultHours:8,defaultLoad:4,defaultPhase:"1p",surgeMultiplier:2.5,objectCaps:{maxBatteryKwh:57.6,maxBatteryCount:6,maxInverterKw:12}},
+  apartment:{uiName:"Квартира",icon:"🏬",minLoad:0.3,maxLoad:7,step:0.1,systems:["backup","hybrid"],hint:"Освітлення + роутер + холодильник ≈ 1-2 кВт",defaultHours:4,defaultLoad:1.5,defaultPhase:"1p",surgeMultiplier:2.0,objectCaps:{maxBatteryKwh:28.8,maxBatteryCount:4,maxInverterKw:7}},
+  business:{uiName:"Бізнес / Офіс",icon:"🏢",minLoad:2,maxLoad:30,step:0.5,systems:["backup","hybrid","autonomous"],hint:"ПК + сервер + освітлення + клімат",defaultHours:4,defaultLoad:6,defaultPhase:"1p",surgeMultiplier:2.0,objectCaps:{maxBatteryKwh:86.4,maxBatteryCount:8,maxInverterKw:30}},
+  industry:{uiName:"Промисловий об'єкт",icon:"🏭",minLoad:10,maxLoad:100,step:1,systems:["backup","hybrid_bess","autonomous"],hint:"Верстати + компресори + освітлення цеху",defaultHours:2,defaultLoad:20,defaultPhase:"3p",surgeMultiplier:3.0,objectCaps:{maxBatteryKwh:172.8,maxBatteryCount:12,maxInverterKw:100}},
+  auto:{uiName:"Автосервіс / СТО",icon:"🛠️",minLoad:3,maxLoad:30,step:0.5,systems:["backup","hybrid"],hint:"Підйомники + компресори + зварювання + освітлення",defaultHours:4,defaultLoad:8,defaultPhase:"3p",surgeMultiplier:3.0,objectCaps:{maxBatteryKwh:86.4,maxBatteryCount:8,maxInverterKw:30}},
+  med:{uiName:"Медичний заклад",icon:"🏥",minLoad:1,maxLoad:20,step:0.5,systems:["backup_ups","hybrid"],hint:"УЗД, монітори, ШВЛ, операційна",defaultHours:8,defaultLoad:4,defaultPhase:"1p",surgeMultiplier:1.5,objectCaps:{maxBatteryKwh:57.6,maxBatteryCount:6,maxInverterKw:20}},
+  agro:{uiName:"Агрогосподарство",icon:"🚜",minLoad:5,maxLoad:50,step:1,systems:["backup","hybrid","autonomous"],hint:"Насоси + сушарки + холодильники + освітлення",defaultHours:8,defaultLoad:12,defaultPhase:"3p",surgeMultiplier:3.0,objectCaps:{maxBatteryKwh:115.2,maxBatteryCount:10,maxInverterKw:50}},
+  horeca:{uiName:"Ресторан / Готель",icon:"🍽️",minLoad:5,maxLoad:40,step:0.5,systems:["backup","hybrid","autonomous"],hint:"Кухня + освітлення + холодильники + клімат",defaultHours:6,defaultLoad:10,defaultPhase:"1p",surgeMultiplier:2.5,objectCaps:{maxBatteryKwh:86.4,maxBatteryCount:8,maxInverterKw:40}},
+  it:{uiName:"IT / Серверна",icon:"💻",minLoad:1,maxLoad:20,step:0.5,systems:["backup_ups","hybrid"],hint:"Сервери + мережеве обладнання + охолодження",defaultHours:4,defaultLoad:5,defaultPhase:"1p",surgeMultiplier:1.5,objectCaps:{maxBatteryKwh:57.6,maxBatteryCount:6,maxInverterKw:20}}
+};
+const SYSTEM_LABELS={backup:"Резерв",backup_ups:"Резерв (UPS)",hybrid:"Гібрид + СЕС",hybrid_bess:"Гібрид + BESS",autonomous:"Автономія"};
+const LEVELS=[{key:"basic",label:"Basic"},{key:"optimal",label:"Optimal"},{key:"max",label:"Max"}];
+const ENGINE={inverterEfficiency:0.92,usableDod:0.90,reserveFactor:0.95,regularLoadBuffer:1.25,panelPowerW:550,chargeRecoveryRate:{backup:0.2,backup_ups:0.2,hybrid:0.15,hybrid_bess:0.15,autonomous:0.15},minimumFallbackHours:{backup:1,backup_ups:1,hybrid:1,hybrid_bess:1,autonomous:2}};
+const INVERTERS=[
+  {id:"ups-12-800",inverter_model:"LP-PSW-800VA",phase:"1p",voltage_v:12,system_type:["backup","backup_ups"],rated_power_w:640,max_surge_power_w:1000,max_charge_current_a:20,max_pv_input_w:0,inverter_efficiency:0.90},
+  {id:"ups-12-1500",inverter_model:"LP-PSW-1500VA",phase:"1p",voltage_v:12,system_type:["backup","backup_ups"],rated_power_w:1200,max_surge_power_w:1800,max_charge_current_a:30,max_pv_input_w:0,inverter_efficiency:0.90},
+  {id:"ups-24-2000",inverter_model:"LP-SW-2000VA / 24V",phase:"1p",voltage_v:24,system_type:["backup","backup_ups"],rated_power_w:1600,max_surge_power_w:3200,max_charge_current_a:40,max_pv_input_w:0,inverter_efficiency:0.91},
+  {id:"ups-24-3000",inverter_model:"LP-SW-3000VA / 24V",phase:"1p",voltage_v:24,system_type:["backup","backup_ups"],rated_power_w:2400,max_surge_power_w:4800,max_charge_current_a:60,max_pv_input_w:0,inverter_efficiency:0.91},
+  {id:"hyb-48-5000",inverter_model:"LP-W-PV-5000",phase:"1p",voltage_v:48,system_type:["backup","backup_ups","hybrid","autonomous"],rated_power_w:5000,max_surge_power_w:10000,max_charge_current_a:80,max_pv_input_w:6000,inverter_efficiency:0.92},
+  {id:"hyb-48-8000",inverter_model:"LP-W-PV-8000",phase:"1p",voltage_v:48,system_type:["backup","backup_ups","hybrid","autonomous"],rated_power_w:8000,max_surge_power_w:16000,max_charge_current_a:120,max_pv_input_w:9000,inverter_efficiency:0.93},
+  {id:"hyb-48-10000",inverter_model:"LP-W-PV-10000",phase:"1p",voltage_v:48,system_type:["backup","backup_ups","hybrid","autonomous"],rated_power_w:10000,max_surge_power_w:20000,max_charge_current_a:140,max_pv_input_w:12000,inverter_efficiency:0.93},
+  {id:"hyb-3p-10000",inverter_model:"LPW-HY-1033-10000VA",phase:"3p",voltage_v:48,system_type:["backup","hybrid_bess","hybrid","autonomous"],rated_power_w:10000,max_surge_power_w:15000,max_charge_current_a:200,max_pv_input_w:13000,inverter_efficiency:0.94},
+  {id:"hyb-3p-15000",inverter_model:"LP 3-phase Hybrid 15kW",phase:"3p",voltage_v:48,system_type:["backup","hybrid_bess","hybrid","autonomous"],rated_power_w:15000,max_surge_power_w:22500,max_charge_current_a:220,max_pv_input_w:18000,inverter_efficiency:0.94},
+  {id:"hyb-3p-20000",inverter_model:"LP 3-phase Hybrid 20kW",phase:"3p",voltage_v:48,system_type:["backup","hybrid_bess","hybrid","autonomous"],rated_power_w:20000,max_surge_power_w:30000,max_charge_current_a:260,max_pv_input_w:24000,inverter_efficiency:0.94}
+];
+const BATTERIES=[
+  {id:"lfp-12-50",battery_model:"LiFePO4 12.8V 50Ah",battery_nominal_v:12.8,battery_capacity_ah:50,battery_kwh:0.64,battery_max_charge_a:25,battery_max_discharge_a:50,battery_peak_discharge_a:100,battery_usable_dod:0.90,battery_chemistry:"LiFePO4",battery_max_parallel_count:4},
+  {id:"lfp-12-100",battery_model:"LiFePO4 12.8V 100Ah",battery_nominal_v:12.8,battery_capacity_ah:100,battery_kwh:1.28,battery_max_charge_a:50,battery_max_discharge_a:100,battery_peak_discharge_a:200,battery_usable_dod:0.90,battery_chemistry:"LiFePO4",battery_max_parallel_count:4},
+  {id:"lfp-24-100",battery_model:"LiFePO4 25.6V 100Ah",battery_nominal_v:25.6,battery_capacity_ah:100,battery_kwh:2.56,battery_max_charge_a:50,battery_max_discharge_a:100,battery_peak_discharge_a:150,battery_usable_dod:0.90,battery_chemistry:"LiFePO4",battery_max_parallel_count:4},
+  {id:"lfp-24-200",battery_model:"LiFePO4 25.6V 200Ah",battery_nominal_v:25.6,battery_capacity_ah:200,battery_kwh:5.12,battery_max_charge_a:100,battery_max_discharge_a:150,battery_peak_discharge_a:220,battery_usable_dod:0.90,battery_chemistry:"LiFePO4",battery_max_parallel_count:4},
+  {id:"lfp-48-100",battery_model:"LiFePO4 51.2V 100Ah",battery_nominal_v:51.2,battery_capacity_ah:100,battery_kwh:5.12,battery_max_charge_a:50,battery_max_discharge_a:100,battery_peak_discharge_a:150,battery_usable_dod:0.90,battery_chemistry:"LiFePO4",battery_max_parallel_count:8},
+  {id:"lfp-48-200",battery_model:"LiFePO4 51.2V 200Ah",battery_nominal_v:51.2,battery_capacity_ah:200,battery_kwh:10.24,battery_max_charge_a:100,battery_max_discharge_a:150,battery_peak_discharge_a:220,battery_usable_dod:0.90,battery_chemistry:"LiFePO4",battery_max_parallel_count:8},
+  {id:"lfp-48-280",battery_model:"LiFePO4 51.2V 280Ah",battery_nominal_v:51.2,battery_capacity_ah:280,battery_kwh:14.34,battery_max_charge_a:140,battery_max_discharge_a:200,battery_peak_discharge_a:280,battery_usable_dod:0.90,battery_chemistry:"LiFePO4",battery_max_parallel_count:8}
+];
+const state={sphereId:"house",loadKw:4,systemType:"backup",phase:"1p",hasSurge:false,requestedHours:8,openResults:null};
+const els={
+  sphereTabs:document.getElementById("sphereTabs"),loadRange:document.getElementById("loadRange"),loadValue:document.getElementById("loadValue"),
+  loadMin:document.getElementById("loadMin"),loadMax:document.getElementById("loadMax"),loadHint:document.getElementById("loadHint"),
+  systemChoices:document.getElementById("systemChoices"),phaseChoices:document.getElementById("phaseChoices"),surgeInput:document.getElementById("surgeInput"),
+  pickBtn:document.getElementById("pickBtn"),summarySphere:document.getElementById("summarySphere"),summaryLoad:document.getElementById("summaryLoad"),
+  summarySystem:document.getElementById("summarySystem"),summaryHours:document.getElementById("summaryHours"),resultsModal:document.getElementById("resultsModal"),
+  closeModal:document.getElementById("closeModal"),autonomyRange:document.getElementById("autonomyRange"),autonomyValue:document.getElementById("autonomyValue"),
+  modalSummary:document.getElementById("modalSummary"),resultMeta:document.getElementById("resultMeta"),degradeWarning:document.getElementById("degradeWarning"),
+  resultsGrid:document.getElementById("resultsGrid")
+};
+function formatKw(v){return `${Number(v).toFixed(v % 1 ? 1 : 0)} кВт`;}
+function formatHours(v){return `${Number(v).toFixed(v % 1 ? 1 : 0)} год`;}
+function getSphere(){return SPHERES[state.sphereId];}
+function normalizedSystemType(systemType){if(systemType==="hybrid_bess") return "hybrid"; if(systemType==="backup_ups") return "backup"; return systemType;}
+function architectureFor(loadKw,phase){if(phase==="3p"||loadKw>10)return{voltage:48,phase:"3p",label:"3 фази"}; if(loadKw<=1)return{voltage:12,phase:"1p",label:"12V"}; if(loadKw<=3)return{voltage:24,phase:"1p",label:"24V"}; return{voltage:48,phase:"1p",label:"48V"};}
+function requiredContinuousW(loadKw){return loadKw*1000*ENGINE.regularLoadBuffer;}
+function requiredSurgeW(loadKw,sphere,hasSurge){return hasSurge ? loadKw*1000*sphere.surgeMultiplier : 0;}
+function requiredBatteryKwh(loadKw,hours,efficiency,usableDod){return (loadKw*hours)/(efficiency*usableDod*ENGINE.reserveFactor);}
+function actualAutonomyHours(batteryKwh,loadKw,efficiency,usableDod){return (batteryKwh*usableDod*efficiency)/loadKw;}
+function estimatePvPanels(loadKw,inverter){if(!inverter.max_pv_input_w) return 0; const pvTargetW=loadKw*1600; const effectiveW=Math.min(pvTargetW,inverter.max_pv_input_w); return Math.ceil(effectiveW/ENGINE.panelPowerW);}
+function allowedBatteryModelsForVoltage(voltage){if(voltage<=12) return BATTERIES.filter(b=>b.battery_nominal_v<20); if(voltage<=24) return BATTERIES.filter(b=>b.battery_nominal_v>=20&&b.battery_nominal_v<40); return BATTERIES.filter(b=>b.battery_nominal_v>=40);}
+function candidateInverters(systemType,arch,sphere){
+  const type=normalizedSystemType(systemType);
+  return INVERTERS.filter(inv=>{
+    const supportsType=inv.system_type.includes(systemType)||inv.system_type.includes(type);
+    const phaseOk=inv.phase===arch.phase;
+    const voltageOk=arch.phase==="3p" ? inv.phase==="3p" : inv.voltage_v===arch.voltage&&inv.phase==="1p";
+    const sphereInvOk=(inv.rated_power_w/1000)<=sphere.objectCaps.maxInverterKw;
+    return supportsType&&phaseOk&&voltageOk&&sphereInvOk;
+  }).sort((a,b)=>a.rated_power_w-b.rated_power_w);
+}
+function buildCandidates(input){
+  const sphere=SPHERES[input.sphereId];
+  const arch=architectureFor(input.loadKw,input.phase);
+  const minContinuousW=requiredContinuousW(input.loadKw);
+  const minSurgeW=requiredSurgeW(input.loadKw,sphere,input.hasSurge);
+  const inverters=candidateInverters(input.systemType,arch,sphere);
+  const candidates=[];
+  for(const inverter of inverters){
+    if(inverter.rated_power_w<minContinuousW) continue;
+    if(minSurgeW&&inverter.max_surge_power_w<minSurgeW) continue;
+    const eff=inverter.inverter_efficiency||ENGINE.inverterEfficiency;
+    const needKwh=requiredBatteryKwh(input.loadKw,input.hours,eff,ENGINE.usableDod);
+    const batteryModels=allowedBatteryModelsForVoltage(inverter.voltage_v);
+    for(const battery of batteryModels){
+      const maxCount=Math.min(battery.battery_max_parallel_count,sphere.objectCaps.maxBatteryCount);
+      for(let count=1;count<=maxCount;count+=1){
+        const batteryKwh=battery.battery_kwh*count;
+        if(batteryKwh>sphere.objectCaps.maxBatteryKwh) break;
+        if(batteryKwh<needKwh) continue;
+        const batteryAcceptChargeA=battery.battery_max_charge_a*count;
+        const batteryDeliverA=battery.battery_max_discharge_a*count;
+        const requiredBatteryDischargeA=minContinuousW/(inverter.voltage_v*eff);
+        const chargePowerKw=(inverter.voltage_v*inverter.max_charge_current_a)/1000;
+        const minRecoveryRate=ENGINE.chargeRecoveryRate[normalizedSystemType(input.systemType)]||0.15;
+        const requiredChargePowerKw=batteryKwh*minRecoveryRate;
+        if(requiredBatteryDischargeA>batteryDeliverA) continue;
+        if(inverter.max_charge_current_a>batteryAcceptChargeA) continue;
+        if(chargePowerKw<requiredChargePowerKw) continue;
+        const pvPanels=normalizedSystemType(input.systemType)==="backup" ? 0 : estimatePvPanels(input.loadKw,inverter);
+        const autonomy=actualAutonomyHours(batteryKwh,input.loadKw,eff,ENGINE.usableDod);
+        candidates.push({sphere:input.sphereId,phase:arch.phase,voltage_v:inverter.voltage_v,bundle_level:null,system_type:input.systemType,inverter_model:inverter.inverter_model,rated_power_w:inverter.rated_power_w,max_surge_power_w:inverter.max_surge_power_w,max_charge_current_a:inverter.max_charge_current_a,max_pv_input_w:inverter.max_pv_input_w,inverter_efficiency:eff,battery_model:battery.battery_model,battery_kwh:Number(batteryKwh.toFixed(2)),battery_count:count,battery_max_charge_a:battery.battery_max_charge_a,battery_max_discharge_a:battery.battery_max_discharge_a,pv_panels_qty:pvPanels,actual_autonomy_h:Number(autonomy.toFixed(1)),required_battery_kwh:Number(needKwh.toFixed(2)),battery_discharge_current_a:Number(requiredBatteryDischargeA.toFixed(1)),inverter_charge_power_kw:Number(chargePowerKw.toFixed(2)),architecture_label:arch.label});
+      }
+    }
+  }
+  return candidates.sort((a,b)=>a.rated_power_w!==b.rated_power_w ? a.rated_power_w-b.rated_power_w : a.battery_kwh!==b.battery_kwh ? a.battery_kwh-b.battery_kwh : a.battery_count-b.battery_count);
+}
+function pickLeveledBundles(candidates){
+  if(!candidates.length) return [];
+  const unique=[]; const seen=new Set();
+  for(const candidate of candidates){
+    const key=`${candidate.inverter_model}|${candidate.battery_model}|${candidate.battery_count}|${candidate.pv_panels_qty}`;
+    if(!seen.has(key)){seen.add(key);unique.push(candidate);}
+  }
+  const selected=[unique[0]||null,unique[Math.min(1,unique.length-1)]||unique[0],unique[Math.min(2,unique.length-1)]||unique[Math.min(1,unique.length-1)]||unique[0]].filter(Boolean);
+  return selected.map((bundle,index)=>({...bundle,bundle_level:LEVELS[index].key,bundle_name:LEVELS[index].label}));
+}
+function solveSelection(input){
+  const normalizedType=normalizedSystemType(input.systemType);
+  const minimumHours=ENGINE.minimumFallbackHours[normalizedType]||1;
+  let hours=input.hours;
+  while(hours>=minimumHours){
+    const candidates=buildCandidates({...input,hours});
+    if(candidates.length){return{requestedHours:input.hours,deliveredHours:hours,degraded:hours<input.hours,bundles:pickLeveledBundles(candidates)};}
+    hours-=1;
+  }
+  return{requestedHours:input.hours,deliveredHours:0,degraded:false,bundles:[]};
+}
+function buildMatrixRows(input,solution){
+  return solution.bundles.map(bundle=>({id:`${bundle.bundle_level}_${bundle.inverter_model}_${bundle.battery_count}`.toLowerCase().replace(/[^a-z0-9_]+/g,"_"),sphere:[input.sphereId],system_type:normalizedSystemType(input.systemType),bundle_level:bundle.bundle_level,phase:bundle.phase,voltage_v:bundle.voltage_v,inverter_model:bundle.inverter_model,rated_power_w:bundle.rated_power_w,max_surge_power_w:bundle.max_surge_power_w,max_charge_current_a:bundle.max_charge_current_a,max_pv_input_w:bundle.max_pv_input_w,battery_model:bundle.battery_model,battery_kwh:bundle.battery_kwh,battery_count:bundle.battery_count,pv_panels_qty:bundle.pv_panels_qty}));
+}
+function renderSphereTabs(){
+  els.sphereTabs.innerHTML=Object.entries(SPHERES).map(([id,sphere],index)=>`<button class="sphere-tab ${id===state.sphereId?"active":""}" data-sphere="${id}"><small>${String(index+1).padStart(2,"0")} · ${sphere.icon}</small><strong>${sphere.uiName}</strong></button>`).join("");
+  els.sphereTabs.querySelectorAll("[data-sphere]").forEach(btn=>btn.addEventListener("click",()=>{state.sphereId=btn.dataset.sphere;applySphereDefaults();renderAll();}));
+}
+function renderSystemChoices(){
+  const sphere=getSphere();
+  els.systemChoices.innerHTML=sphere.systems.map(type=>`<button class="choice ${type===state.systemType?"active":""}" data-system="${type}">${SYSTEM_LABELS[type]}</button>`).join("");
+  els.systemChoices.querySelectorAll("[data-system]").forEach(btn=>btn.addEventListener("click",()=>{state.systemType=btn.dataset.system;state.requestedHours=getSphere().defaultHours;renderAll();}));
+}
+function renderPhaseChoices(){
+  const labels={"1p":"1 фаза","3p":"3 фази"};
+  els.phaseChoices.innerHTML=["1p","3p"].map(phase=>`<button class="choice ${phase===state.phase?"active":""}" data-phase="${phase}">${labels[phase]}</button>`).join("");
+  els.phaseChoices.querySelectorAll("[data-phase]").forEach(btn=>btn.addEventListener("click",()=>{state.phase=btn.dataset.phase;renderAll();}));
+}
+function syncLoadControl(){
+  const sphere=getSphere();
+  els.loadRange.min=sphere.minLoad; els.loadRange.max=sphere.maxLoad; els.loadRange.step=sphere.step;
+  state.loadKw=Math.min(Math.max(state.loadKw,sphere.minLoad),sphere.maxLoad);
+  els.loadRange.value=state.loadKw;
+  els.loadValue.textContent=formatKw(state.loadKw);
+  els.loadMin.textContent=formatKw(sphere.minLoad);
+  els.loadMax.textContent=sphere.maxLoad>=100 ? "100+ кВт" : formatKw(sphere.maxLoad);
+  els.loadHint.textContent=`💡 ${sphere.hint}`;
+}
+function renderSummary(){
+  const sphere=getSphere();
+  els.summarySphere.textContent=sphere.uiName;
+  els.summaryLoad.textContent=formatKw(state.loadKw);
+  els.summarySystem.textContent=SYSTEM_LABELS[state.systemType];
+  els.summaryHours.textContent=formatHours(sphere.defaultHours);
+}
+function applySphereDefaults(){
+  const sphere=getSphere();
+  state.loadKw=sphere.defaultLoad;
+  state.systemType=sphere.systems[0];
+  state.phase=sphere.defaultPhase;
+  state.hasSurge=false;
+  state.requestedHours=sphere.defaultHours;
+  if(els.surgeInput) els.surgeInput.checked=false;
+}
+function renderAll(){renderSphereTabs();renderSystemChoices();renderPhaseChoices();syncLoadControl();renderSummary();}
+function resultMetaRows(input,solution,bundles){
+  const arch=architectureFor(input.loadKw,input.phase);
+  const continuous=requiredContinuousW(input.loadKw)/1000;
+  const surge=requiredSurgeW(input.loadKw,getSphere(),input.hasSurge)/1000;
+  const maxBundle=bundles[bundles.length-1];
+  return [["Сфера",getSphere().uiName],["Архітектура",arch.label],["Потрібна безперервна потужність",`${continuous.toFixed(2)} кВт`],["Потрібна пускова потужність",surge?`${surge.toFixed(2)} кВт`:"не вимагається"],["Запит / факт автономії",`${solution.requestedHours} / ${solution.deliveredHours} год`],["Максимум PV у Max",maxBundle&&maxBundle.pv_panels_qty?`${maxBundle.pv_panels_qty} панелей`:"без PV"]];
+}
+function renderResults(solution){
+  const input={sphereId:state.sphereId,loadKw:state.loadKw,systemType:state.systemType,phase:state.phase,hasSurge:state.hasSurge,hours:state.requestedHours};
+  const bundles=solution.bundles;
+  els.modalSummary.textContent=`Для навантаження ${formatKw(state.loadKw)} у сфері "${getSphere().uiName}" рекомендовано такі комплекти. Дефолтна автономія для цієї сфери — ${formatHours(getSphere().defaultHours)}.`;
+  els.resultMeta.innerHTML=resultMetaRows(input,solution,bundles).map(([label,value])=>`<div><span>${label}</span><strong>${value}</strong></div>`).join("");
+  els.degradeWarning.innerHTML=solution.degraded ? `<div class="warning">⚠️ Знайдено рішення з меншою автономією. Через апаратні ліміти об'єкта підібрано максимально можливий варіант (${solution.deliveredHours} год).</div>` : "";
+  if(!bundles.length){els.resultsGrid.innerHTML=`<div class="warning">Не знайдено працездатних конфігурацій навіть після деградації автономії. Для такого запиту потрібен інший клас обладнання або індивідуальний інженерний розрахунок.</div>`; return;}
+  const matrixRows=buildMatrixRows(input,solution);
+  els.resultsGrid.innerHTML=bundles.map((bundle,index)=>{
+    const row=matrixRows[index];
+    const showPv=normalizedSystemType(state.systemType)!=="backup";
+    return `<article class="kit">
+      <span class="kit-badge ${bundle.bundle_level}">${bundle.bundle_name}</span>
+      <h4>${bundle.bundle_name}</h4>
+      <div class="kit-intro">Для навантаження ${formatKw(state.loadKw)} рекомендовано конфігурацію рівня ${bundle.bundle_name.toLowerCase()}.</div>
+      <div class="kit-block"><div class="kit-label">Інвертор</div><div class="kit-text">${bundle.inverter_model} (потужність: ${(bundle.rated_power_w/1000).toFixed(1)} кВт)</div></div>
+      <div class="kit-block"><div class="kit-label">АКБ</div><div class="kit-text">${bundle.battery_model} × ${bundle.battery_count} шт. (Загальна ємність: ${bundle.battery_kwh.toFixed(2)} кВт·год)</div></div>
+      ${showPv?`<div class="kit-block"><div class="kit-label">СЕС</div><div class="kit-text">Фотомодулі 550W × ${bundle.pv_panels_qty} шт.</div></div>`:""}
+      <div class="kit-stat"><strong>~ ${bundle.actual_autonomy_h.toFixed(1)} год</strong><span>Фактична автономія при стабільному навантаженні ${formatKw(state.loadKw)}.</span></div>
+      <div class="kit-tags"><span>${bundle.architecture_label}</span><span>${bundle.battery_discharge_current_a} A DC</span><span>${bundle.inverter_charge_power_kw} кВт заряд</span>${bundle.max_pv_input_w?`<span>MPPT ${bundle.max_pv_input_w} W</span>`:""}</div>
+      <div class="disclaimer">Цей підбір є орієнтовним. Для точного розрахунку з урахуванням пускових струмів та особливостей об'єкта зверніться до менеджера.</div>
+      <div class="disclaimer">Matrix row: <code>${JSON.stringify(row)}</code></div>
+    </article>`;
+  }).join("");
+}
+function openResults(){
+  state.requestedHours=getSphere().defaultHours;
+  els.autonomyRange.min=normalizedSystemType(state.systemType)==="autonomous"?2:1;
+  els.autonomyRange.max=Math.max(getSphere().defaultHours+8,getSphere().defaultHours);
+  els.autonomyRange.step=1; els.autonomyRange.value=state.requestedHours; els.autonomyValue.textContent=formatHours(state.requestedHours);
+  const solution=solveSelection({sphereId:state.sphereId,loadKw:state.loadKw,systemType:state.systemType,phase:state.phase,hasSurge:state.hasSurge,hours:state.requestedHours});
+  state.openResults=solution; renderResults(solution); els.resultsModal.classList.add("open");
+}
+function recomputeModal(){
+  state.requestedHours=Number(els.autonomyRange.value);
+  els.autonomyValue.textContent=formatHours(state.requestedHours);
+  const solution=solveSelection({sphereId:state.sphereId,loadKw:state.loadKw,systemType:state.systemType,phase:state.phase,hasSurge:state.hasSurge,hours:state.requestedHours});
+  state.openResults=solution; renderResults(solution);
+}
+els.loadRange.addEventListener("input",event=>{state.loadKw=Number(event.target.value);els.loadValue.textContent=formatKw(state.loadKw);renderSummary();});
+els.surgeInput.addEventListener("change",event=>{state.hasSurge=event.target.checked;});
+els.pickBtn.addEventListener("click",openResults);
+els.closeModal.addEventListener("click",()=>els.resultsModal.classList.remove("open"));
+els.resultsModal.addEventListener("click",event=>{if(event.target===els.resultsModal) els.resultsModal.classList.remove("open");});
+els.autonomyRange.addEventListener("input",recomputeModal);
+applySphereDefaults();
+renderAll();
+</script>
+</body>
+</html>

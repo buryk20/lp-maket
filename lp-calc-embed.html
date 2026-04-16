@@ -1,0 +1,82 @@
+<div id="lp-calc-embed">
+  <style>
+    #lp-calc-embed {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    #lp-calc-embed .lp-calc-frame {
+      display: block;
+      width: 100%;
+      min-height: 1400px;
+      border: 0;
+      background: transparent;
+    }
+
+    #lp-calc-embed .lp-calc-fallback {
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 122, 0, 0.22);
+      background: rgba(255, 122, 0, 0.08);
+      color: #ff7a00;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  </style>
+
+  <iframe
+    class="lp-calc-frame"
+    title="LogicPower Engineering Calculator"
+    loading="lazy"
+    src="./lp-calc.html">
+  </iframe>
+
+  <noscript>
+    <div class="lp-calc-fallback">
+      Для відображення калькулятора потрібен JavaScript.
+    </div>
+  </noscript>
+
+  <script>
+    (function () {
+      var root = document.getElementById('lp-calc-embed');
+      if (!root) return;
+
+      var frame = root.querySelector('.lp-calc-frame');
+      if (!frame) return;
+
+      function setFrameHeight() {
+        try {
+          var doc = frame.contentWindow && frame.contentWindow.document;
+          if (!doc || !doc.documentElement) return;
+          var nextHeight = Math.max(
+            doc.documentElement.scrollHeight || 0,
+            doc.body ? doc.body.scrollHeight : 0,
+            1400
+          );
+          frame.style.height = nextHeight + 'px';
+        } catch (e) {
+          frame.style.height = '1600px';
+        }
+      }
+
+      frame.addEventListener('load', function () {
+        setFrameHeight();
+        try {
+          var doc = frame.contentWindow.document;
+          if (typeof ResizeObserver !== 'undefined' && doc && doc.body) {
+            var observer = new ResizeObserver(setFrameHeight);
+            observer.observe(doc.body);
+          }
+        } catch (e) {
+        }
+      });
+
+      window.addEventListener('resize', setFrameHeight);
+      setTimeout(setFrameHeight, 400);
+      setTimeout(setFrameHeight, 1200);
+    })();
+  </script>
+</div>
